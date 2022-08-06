@@ -1,15 +1,15 @@
-const audio1 = {
+const audio_list = [{
     url: 'audio/LareeChoote.mp3',
     name: 'lare choote'
-}
-const audio2 = {
+},
+{
     url: 'audio/be_in_my_bed.mp3',
     name: 'Be in my bed'
-}
-const audio3 = {
+},
+{
     url: 'audio/junoon.mp3',
     name: 'Junoon'
-}
+}]
 /**
  * @description_of_song
  * 
@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const init = () => {
 
     document.getElementById('showInfo').addEventListener('click', () => { showInfo() })
+    document.getElementById('logInfo').addEventListener('click', () => { logInfo() })
     // show all info about current song
     const showInfo = () => {
         showIndex()
@@ -35,9 +36,10 @@ const init = () => {
         showTimeDuration()
     }
 
+    const logInfo = () => {
 
+    }
 
-    const audio_list = [audio1, audio2, audio3]
     const audio = new Audio()
 
     const btn = document.getElementById('btn')
