@@ -35,6 +35,8 @@ const init = () => {
         showTimeDuration()
     }
 
+
+
     const audio_list = [audio1, audio2, audio3]
     const audio = new Audio()
 
@@ -92,12 +94,6 @@ const init = () => {
         }
     })
 
-    const renderTime = () => {
-        const time = document.createElement('code')
-        time.innerHTML = audio.duration / 60
-        document.body.append(time)
-    }
-
     // show current index of song
     const showIndex = () => {
         const h5 = document.createElement('ins')
@@ -122,6 +118,9 @@ const init = () => {
         const duration = document.createElement('time')
         duration.innerHTML = Math.floor(audio.duration / 60).toFixed(1)
         document.body.append(duration)
+        setTimeout(() => {
+            document.body.removeChild(duration)
+        }, 1000)
     }
 
 
