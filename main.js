@@ -42,7 +42,7 @@ const init = () => {
     }
 
     const logInfo = () => {
-        console.log({ current_song_index, audio_name: audio_list[current_song_index].name, duration: presDuration() })
+        console.log({ current_song_index, audio_name: audio_list[current_song_index].name, duration: presDuration(), volume_level: audio.volume })
     }
 
     const presDuration = () => {
@@ -53,7 +53,7 @@ const init = () => {
         if (isNaN(audio.duration)) {
             return '00:00'
         }
-        return  min + ':' + sec
+        return min + ':' + sec
     }
 
 
@@ -63,8 +63,11 @@ const init = () => {
     const next = document.getElementById('next')
     const back = document.getElementById('back')
     const show = document.getElementById('show')
+    const volume = document.getElementById('volume')
     const timeLeft = document.getElementById('time_left')
 
+    // set default volume
+    audio.volume = volume.value
 
     timeLeft.addEventListener('click', () => { remaingTime() })
 
@@ -110,6 +113,11 @@ const init = () => {
         showName(audio_list[current_song_index].name)
         btn.innerHTML = 'Pause'
         showIndex()
+    })
+
+    // volume inc / dec
+    volume.addEventListener('input', () => {
+        audio.volume = volume.value
     })
 
     // click on back button
