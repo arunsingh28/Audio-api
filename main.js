@@ -26,6 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 const init = () => {
+    // current song index
+    let current_song_index = 0;
+
+
     // log info in DOM
     document.getElementById('showInfo').addEventListener('click', () => { showInfo() })
     // log info in console
@@ -41,21 +45,25 @@ const init = () => {
         console.log({ current_song_index, audio_name: audio_list[current_song_index].name, duration: presDuration() })
     }
 
-    const presDuration = (time) => {
+    const presDuration = () => {
         const split_duration = audio.duration.toString().split('.')
         const min = Math.floor(split_duration[0] % 3600 / 60)
         const sec = Math.floor(parseInt(split_duration[1]) % 3600 % 60)
-        return min + ':' + sec
+        // if duration is not ther then 00:00 will be there
+        if (isNaN(audio.duration)) {
+            return '00:00'
+        }
+        return  min + ':' + sec
     }
 
-    const audio = new Audio(audio_list[0].url)
+
+    const audio = new Audio(audio_list[current_song_index].url)
 
     const btn = document.getElementById('btn')
     const next = document.getElementById('next')
     const back = document.getElementById('back')
     const show = document.getElementById('show')
     const timeLeft = document.getElementById('time_left')
-    let current_song_index = 0;
 
 
     timeLeft.addEventListener('click', () => { remaingTime() })
@@ -72,7 +80,6 @@ const init = () => {
             showIndex()
         } else {
             audio.pause()
-            clearInterval(timer)
             btn.innerHTML = 'Play'
             showIndex()
         }
@@ -90,7 +97,7 @@ const init = () => {
         const split_duration = remaingTime.toString().split('.')
         const min = Math.floor(split_duration[0] % 3600 / 60)
         const sec = Math.floor(parseInt(split_duration[1]) % 3600 % 60)
-        setInterval(() => { console.log({ time: min + ':' + sec }) }, 10)
+
     }
 
     // click on next button
@@ -108,9 +115,9 @@ const init = () => {
     // click on back button
     back.addEventListener('click', () => {
         if (current_song_index <= 0) {
+            back.disabled = true
             console.log(current_song_index)
             current_song_index = 0
-            back.disabled = true
         }
         else {
             back.disabled = false
@@ -145,6 +152,9 @@ const init = () => {
     const showTimeDuration = () => {
         const duration = document.createElement('time')
         duration.innerHTML = presDuration()
+        if (isNaN(audio.duration)) {
+            duration.innerHTML = '00:00'
+        }
         document.body.append(duration)
         setTimeout(() => {
             document.body.removeChild(duration)
