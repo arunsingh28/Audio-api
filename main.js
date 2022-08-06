@@ -26,8 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 const init = () => {
-
+    // log info in DOM
     document.getElementById('showInfo').addEventListener('click', () => { showInfo() })
+    // log info in console
     document.getElementById('logInfo').addEventListener('click', () => { logInfo() })
     // show all info about current song
     const showInfo = () => {
@@ -37,27 +38,41 @@ const init = () => {
     }
 
     const logInfo = () => {
-
+        console.log({ current_song_index, audio_name: audio_list[current_song_index].name, duration: presDuration() })
     }
 
-    const audio = new Audio()
+    const presDuration = (time) => {
+        const split_duration = audio.duration.toString().split('.')
+        const min = Math.floor(split_duration[0] % 3600 / 60)
+        const sec = Math.floor(parseInt(split_duration[1]) % 3600 % 60)
+        return min + ':' + sec
+    }
+
+    const audio = new Audio(audio_list[0].url)
 
     const btn = document.getElementById('btn')
     const next = document.getElementById('next')
     const back = document.getElementById('back')
     const show = document.getElementById('show')
+    const timeLeft = document.getElementById('time_left')
     let current_song_index = 0;
 
 
+    timeLeft.addEventListener('click', () => { remaingTime() })
+
+
+
     btn.addEventListener('click', () => {
+        timeLeft.disabled = false
+        // toggle btn
         if (btn.innerHTML === 'Play') {
-            audio.src = audio_list[current_song_index].url
             audio.play()
             showName(audio_list[current_song_index].name)
             btn.innerHTML = 'Pause'
             showIndex()
         } else {
             audio.pause()
+            clearInterval(timer)
             btn.innerHTML = 'Play'
             showIndex()
         }
@@ -66,6 +81,17 @@ const init = () => {
     show.addEventListener('click', () => {
         showIndex()
     })
+
+    // calculate timeleft 
+    const remaingTime = () => {
+        var totalTime = audio.duration
+        var currentTime = audio.currentTime
+        var remaingTime = totalTime - currentTime
+        const split_duration = remaingTime.toString().split('.')
+        const min = Math.floor(split_duration[0] % 3600 / 60)
+        const sec = Math.floor(parseInt(split_duration[1]) % 3600 % 60)
+        setInterval(() => { console.log({ time: min + ':' + sec }) }, 10)
+    }
 
     // click on next button
     next.addEventListener('click', () => {
@@ -118,7 +144,7 @@ const init = () => {
     // show time duration of current song
     const showTimeDuration = () => {
         const duration = document.createElement('time')
-        duration.innerHTML = Math.floor(audio.duration / 60).toFixed(1)
+        duration.innerHTML = presDuration()
         document.body.append(duration)
         setTimeout(() => {
             document.body.removeChild(duration)
