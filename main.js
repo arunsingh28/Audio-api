@@ -1,13 +1,13 @@
 const audio1 = {
-    url: 'LareeChoote.mp3',
+    url: 'audio/LareeChoote.mp3',
     name: 'lare choote'
 }
 const audio2 = {
-    url: 'be_in_my_bed.mp3',
+    url: 'audio/be_in_my_bed.mp3',
     name: 'Be in my bed'
 }
 const audio3 = {
-    url: 'junoon.mp3',
+    url: 'audio/junoon.mp3',
     name: 'Junoon'
 }
 /**
