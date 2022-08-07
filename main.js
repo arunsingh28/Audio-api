@@ -171,10 +171,20 @@ const init = () => {
 
 
     // special keydown function
+    // toggle btn for play & pause with spacebar
+    let toggle = false
     document.body.addEventListener('keydown', (e) => {
-        if (e.code == 'Space') {
-            audio.play()
-            console.log('click space')
+        if (e.code == 'Space' || e.keyCode == 32 || e.key == ' ') {
+            if (toggle) {
+                toggle = false
+                audio.pause()
+                btn.innerHTML = 'Play'
+            } else {
+                toggle = true
+                audio.play()
+                btn.innerHTML = 'Pause'
+            }
         }
-    })
+    }, false)
+
 }
