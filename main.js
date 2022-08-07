@@ -42,7 +42,7 @@ const init = () => {
     }
 
     const logInfo = () => {
-        console.log({ current_song_index, audio_name: audio_list[current_song_index].name, duration: presDuration(), volume_level: audio.volume })
+        console.log({ current_song_index, audio_name: audio_list[current_song_index].name, duration: presDuration(), volume_level: audio.volume, src: audio.src })
     }
 
     const presDuration = () => {
@@ -66,8 +66,16 @@ const init = () => {
     const volume = document.getElementById('volume')
     const timeLeft = document.getElementById('time_left')
 
+    // global changes
+    if (audio.duration == audio.duration) {
+        // btn.innerHTML = 'Play'
+        console.log('song finish')
+        audio.src = audio_list[++current_song_index].url
+    }
+
     // set default volume
     audio.volume = volume.value
+
 
     timeLeft.addEventListener('click', () => { remaingTime() })
 
@@ -186,5 +194,33 @@ const init = () => {
             }
         }
     }, false)
-
+    addingNewAudio()
 }
+
+
+// adding new song url
+const addingNewAudio = (audio_src) => {
+    const input = document.createElement('input')
+    const addBtn = document.createElement('button')
+    input.setAttribute('type', 'url')
+    addBtn.innerHTML = 'Add'
+    document.body.append(input)
+    document.body.append(addBtn)
+
+    addBtn.addEventListener('click', () => {
+        if (input.value === '' || input.value == null) {
+            alert('can not perform this action enter the url')
+        }
+        else {
+            audio_list.push({
+                url: input.value,
+                name: input.value.substring(0, input.value.lastIndexOf("."))
+            })
+            window.console.info(input.value.substring(0, input.value.lastIndexOf(".")) + ' is Added to list')
+            input.value = ''
+            console.log(audio_list)
+        }
+    })
+}
+
+// sample url = https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba-online-audio-converter.com_-1.wav
