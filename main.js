@@ -10,6 +10,7 @@ const audio_list = [{
     url: 'audio/junoon.mp3',
     name: 'Junoon'
 }]
+
 /**
  * @description_of_song
  * 
@@ -193,7 +194,44 @@ const init = () => {
                 btn.innerHTML = 'Pause'
             }
         }
+        // seek -1
+        if (e.code == 'ArrowRight' || e.which == 39) {
+            audio.src = audio_list[++current_song_index].url
+            audio.play()
+            showName(audio_list[current_song_index].name)
+            btn.innerHTML = 'Pause'
+        }
+        // seek + 1
+        if (e.code == 'ArrowLeft' || e.which == 37) {
+            audio.src = audio_list[--current_song_index].url
+            audio.play()
+            showName(audio_list[current_song_index].name)
+            btn.innerHTML = 'Pause'
+        }
+        // voume + 
+        if (e.code == 'ArrowUp') {
+            console.log(audio.volume)
+            // audio.volume += .2
+            if (audio.volume >= 1) {
+                console.info('Please decrease the volume its harmfull for your ears as per goverment guidline.')
+            }
+            else {
+                volume.value += .2
+                audio.volume += .2
+            }
+            // controll voulume to range 1 to 0
+        }
+        if (e.code == 'ArrowDown') {
+            if (audio.volume <= 0) {
+                console.info('silence')
+            } else {
+                volume.value -= .2
+                audio.volume -= .2
+            }
+            // controll voulume to range 1 to 0
+        }
     }, false)
+    // adding new song to list
     addingNewAudio()
 }
 
